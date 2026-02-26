@@ -1,1 +1,101 @@
+// EJERCICIO INICIALIZACION
+<?php
+$host = "localhost";
+$db = "asix";
+$user = "root";   // usuario MySQL XAMPP
+$pass = "";       // contraseña XAMPP por defecto vacía
+$charset = "utf8mb4";
 
+$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+$options = [
+    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+];
+
+try {
+    $pdo = new PDO($dsn, $user, $pass, $options);
+} catch(PDOException $e) {
+    echo "Error de conexión: " . $e->getMessage();
+    exit;
+}
+?>
+
+
+// EJERCICIO 1
+
+
+<?php
+include "conexion.php";
+
+$stmt = $pdo->query("SELECT * FROM modulos");
+$modulos = $stmt->fetchAll();
+?>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Listado de Módulos ASIX</title>
+</head>
+<body>
+<h1>Listado de Módulos ASIX</h1>
+
+<?php
+if(count($modulos) > 0){
+    echo "<ul>";
+    foreach($modulos as $mod){
+        echo "<li>" . htmlspecialchars($mod['nombre']) . "</li>";
+    }
+    echo "</ul>";
+} else {
+    echo "<p>No hay módulos registrados.</p>";
+}
+?>
+</body>
+</html>
+
+
+// EJERCICIO 2
+
+<?php
+include "conexion.php";
+
+// Insertar módulo
+if($_SERVER["REQUEST_METHOD"] === "POST" && !empty($_POST['nombre'])){
+    $stmt = $pdo->prepare("INSERT INTO modulos (nombre) VALUES (:nombre)");
+    $stmt->execute(['nombre' => $_POST['nombre']]);
+    header("Location: ej2_insert.php"); // PRG
+    exit;
+}
+
+// Listado actualizado
+$stmt = $pdo->query("SELECT * FROM modulos");
+$modulos = $stmt->fetchAll();
+?>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Insertar Módulo ASIX</title>
+</head>
+<body>
+<h1>Insertar Módulo ASIX</h1>
+
+<form method="POST">
+    <input type="text" name="nombre" placeholder="Nombre módulo" required>
+    <input type="submit" value="Agregar">
+</form>
+
+<h2>Listado de módulos</h2>
+<?php
+if(count($modulos) > 0){
+    echo "<ul>";
+    foreach($modulos as $mod){
+        echo "<li>" . htmlspecialchars($mod['nombre']) . "</li>";
+    }
+    echo "</ul>";
+} else {
+    echo "<p>No hay módulos registrados.</p>";
+}
+?>
+</body>
+</html>
