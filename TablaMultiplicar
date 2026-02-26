@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Tabla de Multiplicar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f4f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .card {
+            background: #fff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+            text-align: center;
+            width: 300px;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        input[type="number"] {
+            padding: 8px;
+            margin: 5px 0;
+            width: 80%;
+            font-size: 16px;
+        }
+        input[type="submit"] {
+            padding: 10px 20px;
+            background: #FF5722;
+            color: white;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        p.result {
+            font-size: 16px;
+            color: #555;
+            margin-top: 15px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1>Tabla de Multiplicar</h1>
+
+    <!-- Formulario -->
+    <form method="POST">
+        <input type="number" name="numero" placeholder="Introduce un número" required><br>
+        <input type="submit" value="Mostrar tabla">
+    </form>
+
+    <!-- PHP -->
+    <?php
+    if(isset($_POST['numero'])){
+        $num = intval($_POST['numero']);
+        echo "<div class='result'><strong>Tabla de multiplicar del $num:</strong><br>";
+        for($i = 1; $i <= 10; $i++){
+            $resultado = $num * $i;
+            echo "$num × $i = $resultado<br>";
+        }
+        echo "</div>";
+    }
+    ?>
+</div>
+
+</body>
+</html>
