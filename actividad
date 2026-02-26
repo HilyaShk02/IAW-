@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Módulos del Ciclo ASIX</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #eef2f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .card {
+            background: #fff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            text-align: center;
+            width: 350px;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        input[type="submit"] {
+            padding: 10px 25px;
+            background: #3F51B5;
+            color: white;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        ul {
+            text-align: left;
+            margin-top: 20px;
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 8px;
+            color: #555;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1>Módulos de ASIX</h1>
+
+    <!-- Formulario -->
+    <form method="POST">
+        <input type="submit" name="mostrar" value="Mostrar módulos">
+    </form>
+
+    <!-- PHP -->
+    <?php
+    if(isset($_POST['mostrar'])){
+        $modulos = [
+            "Seguridad",
+            "Servicios en red",
+            "Implantaciones web",
+            "Módulo optativo",
+            "Sostenibilidad",
+            "Sistemas"
+        ];
+
+        echo "<ul>";
+        foreach($modulos as $modulo){
+            echo "<li>$modulo</li>";
+        }
+        echo "</ul>";
+    }
+    ?>
+</div>
+
+</body>
+</html>
