@@ -1,0 +1,72 @@
+<?php
+$carrito = [
+    ["nombre" => "Ratón",   "precio" => 10.0, "cantidad" => 2],
+    ["nombre" => "Teclado", "precio" => 20.0, "cantidad" => 1],
+    ["nombre" => "Monitor", "precio" => 150.0,"cantidad" => 1],
+];
+
+if ($_SERVER["REQUEST_METHOD"] === "POST" && !empty($_POST["nombre"]) && !empty($_POST["precio"]) && !empty($_POST["cantidad"])) {
+    $nuevoProducto = [
+        "nombre" => $_POST["nombre"],
+        "precio" => floatval($_POST["precio"]),
+        "cantidad" => intval($_POST["cantidad"])
+    ];
+    $carrito[] = $nuevoProducto; 
+}
+?>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Carrito de la Compra</title>
+<style>
+    body { font-family: Arial, sans-serif; padding: 30px; }
+    table { border-collapse: collapse; width: 60%; }
+    th, td { border: 1px solid #333; padding: 10px; text-align: center; }
+    th { background-color: #f2f2f2; }
+    input[type=text], input[type=number] { padding: 5px; }
+    input[type=submit] { padding: 5px 15px; margin-top: 10px; background: #4CAF50; color: white; border: none; cursor: pointer; }
+    h1, h3 { font-family: Arial, sans-serif; }
+</style>
+</head>
+<body>
+
+<h1>Carrito de la Compra</h1>
+
+<!-- Tabla de productos -->
+<table>
+    <tr>
+        <th>Producto</th>
+        <th>Precio</th>
+        <th>Cantidad</th>
+        <th>Subtotal</th>
+    </tr>
+    <?php
+    $total = 0;
+    foreach ($carrito as $item):
+        $subtotal = $item["precio"] * $item["cantidad"];
+        $total += $subtotal;
+    ?>
+    <tr>
+        <td><?php echo htmlspecialchars($item["nombre"]); ?></td>
+        <td><?php echo number_format($item["precio"], 2); ?> €</td>
+        <td><?php echo $item["cantidad"]; ?></td>
+        <td><?php echo number_format($subtotal, 2); ?> €</td>
+    </tr>
+    <?php endforeach; ?>
+</table>
+
+<h3>Total a pagar: <?php echo number_format($total, 2); ?> €</h3>
+
+<!-- Formulario para añadir un producto -->
+<h2>Añadir producto al carrito</h2>
+<form method="POST">
+    <input type="text" name="nombre" placeholder="Nombre del producto" required>
+    <input type="number" name="precio" placeholder="Precio" step="0.01" required>
+    <input type="number" name="cantidad" placeholder="Cantidad" min="1" required>
+    <br>
+    <input type="submit" value="Añadir">
+</form>
+
+</body>
+</html>
